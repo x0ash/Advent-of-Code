@@ -12,13 +12,13 @@ def validate_report(report:list):
     diff,gt_dir = get_diff_dir(report[0],report[1])         # This is our base different and ground truth direction
 
     if diff == 0 or diff > 3:
-        return (-1,0)
+        return (0,0)
     else:
         for i in range(1,len(report)-1):                    # Don't need to recheck index 0 (and 1)
             diff, test_dir = get_diff_dir(report[i],report[i+1])
 
             if test_dir != gt_dir or diff == 0 or diff > 3:
-                return (-1,i)
+                return (0,i)
         
         return (1,-1)
 
@@ -40,8 +40,7 @@ def task1():
 
     for report in lines:
         split_report = [int(x) for x in report.split()]       # Normally I'd split on " " but Python automatically splits on whitespace
-        if validate_report(split_report)[0] == 1:             #[0] is the exit code of the function; 1 means successful
-            safe_reports += 1
+        safe_reports += validate_report(split_report)[0]             #[0] is the exit code of the function; 1 means successful
 
     print(safe_reports)
 
@@ -64,7 +63,7 @@ def task2():
     for report in lines:
         split_report = [int(x) for x in report.split()]
         exit_code, exit_index = validate_report(split_report)
-        if exit_code == -1:
+        if exit_code == 0:
             for i in range(max(0,exit_index-1),min(len(split_report),exit_index+2)):        # Don't want bounds error, check 1 below & 1 above
                 test_report = split_report.copy()
                 test_report.pop(i)
