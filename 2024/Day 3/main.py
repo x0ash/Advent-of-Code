@@ -33,26 +33,17 @@ def task1():
     data = f.read()
     f.close()
 
-    results = 0
+    result = 0
 
-    while "mul(" in data:
-        start_idx = data.index("mul(",)
-        data = data[start_idx+4:]
-        if "mul(" in data:
-            if ")" in data:
-                end_idx = min(data.index(")"),data.index("mul("))
-        elif ")" in data:
-            end_idx = data.index(")")
-        else:
-            end_idx = len(data)
-        value_str = data[0:end_idx]
-        values = value_str.split(",",1)
-        if len(values) == 2:
-            if values[0].isnumeric() and values[1].isnumeric():
-                results += (int(values[0])*int(values[1]))
-        data = data[end_idx:]
+    start_idx,end_idx = 0,0
 
-    print(results)
+    while end_idx != -1:
+        data_chunk = data[start_idx:]
+        new_start_idx,end_idx = find_function(data_chunk,"mul")
+        result += mul_from_str(data_chunk[new_start_idx+4:end_idx-1])
+        start_idx += end_idx
+
+    print(result)
 
     return 0
 
@@ -72,8 +63,7 @@ def task2():
 
     result = 0
 
-    start_idx = 0
-    end_idx = 0
+    start_idx,end_idx = 0,0
 
     mul_enable = True               # controlled by "do()" and "don't()"
     
@@ -98,4 +88,5 @@ def task2():
     return 0
 
 if __name__ == "__main__":
+    task1()
     task2()
