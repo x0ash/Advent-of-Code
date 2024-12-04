@@ -34,6 +34,8 @@ def task1():
     
     print(sum(diff))
 
+    return 0
+
 # -- Task 2 --
 def task2():
     '''
@@ -48,6 +50,8 @@ def task2():
         sim_score.append(num*lB.count(num))
     
     print(sum(sim_score))
+
+    return 0
 
 if __name__ == "__main__":
     task1()

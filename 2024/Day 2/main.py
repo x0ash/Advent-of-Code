@@ -4,8 +4,7 @@
 # -- Shared --
 def get_diff_dir(a:int,b:int):
     diff = b-a
-    nz_diff = (diff*2)+1                # This prevents div by 0
-    dir = nz_diff / abs(nz_diff)        # This will find the direction as +1 or -1 without branching
+    dir = diff<0
     return (abs(diff),dir)
 
 def validate_report(report:list):
@@ -40,9 +39,11 @@ def task1():
 
     for report in lines:
         split_report = [int(x) for x in report.split()]       # Normally I'd split on " " but Python automatically splits on whitespace
-        safe_reports += validate_report(split_report)[0]             #[0] is the exit code of the function; 1 means successful
+        safe_reports += validate_report(split_report)[0]             # [0] is the exit code of the function; 1 means successful
 
     print(safe_reports)
+    
+    return 0
 
 # -- Task 2 --
 def task2():
@@ -74,6 +75,8 @@ def task2():
             safe_reports += 1
     
     print(safe_reports)
+
+    return 0
 
 if __name__ == "__main__":
     task1()
