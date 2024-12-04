@@ -3,18 +3,25 @@
 
 # -- Shared --
 def find_function(data:str,func_name:str):
+    
+    # This function finds {func_name}([...]) without validating the parameters at all
+    # This can be handled by mul_from_str() in this case.
+
     func_start = func_name + "("
     start_idx, end_idx = 0, -1
     offset = 0
-    while data[start_idx+offset:end_idx].count(func_start)>0:
+
+    while func_start in data[start_idx+offset:end_idx]:         # I move the offset when iterating so that I don't
+                                                                # repeatedly find the same function
         start_idx = data.index(func_start,start_idx+offset)
         end_idx=data.index(")",start_idx)+1
         offset += 1
+
     return start_idx,end_idx
 
 def mul_from_str(mul_str:str):
-    values = mul_str.split(",",1)
-    if len(values) == 2:
+    values = mul_str.split(",",1)   # in this case, we know mul() should have two parameters, so we ensure a single split
+    if len(values) == 2:            # skip processing if form is bad ("mul(*)" instead of "mul(*,*)")
         if values[0].isnumeric() and values[1].isnumeric():
             return int(values[0]) * int(values[1])
     return 0
